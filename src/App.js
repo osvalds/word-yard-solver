@@ -1,25 +1,15 @@
 import React, {Suspense} from 'react';
-import {RecoilRoot, useRecoilValue} from "recoil";
+import {RecoilRoot} from "recoil";
 import './App.css';
 import ErrorBoundary from "./components/ErrorBoundary";
-import {CorpusQuery} from "./AppData";
-
-function Shaq() {
-    const corpus = useRecoilValue(CorpusQuery)
-
-    return (
-        <ul>
-            <li>{corpus[0]}</li>
-        </ul>
-    )
-}
+import Solver from "./components/Solver";
 
 function App() {
     return (
         <RecoilRoot>
             <ErrorBoundary>
                 <Suspense fallback={<div>Ielādē latviešu valodu...</div>}>
-                    <Shaq/>
+                    <Solver/>
                 </Suspense>
             </ErrorBoundary>
         </RecoilRoot>
