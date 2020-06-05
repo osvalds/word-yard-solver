@@ -2,6 +2,8 @@ import {useRecoilValue} from "recoil";
 import {CorpusQuery} from "../AppData";
 import React, {useReducer, useState} from "react";
 import Iter from "es-iter"
+import Button from "./Button";
+import InputArray from "./InputArray";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -78,30 +80,18 @@ export default function Solver() {
 
     return (
         <>
+            <InputArray onChange={dispatchInputArrayChange} inputArray={inputArray}/>
             <div>
                 Minamā vārda garums:
-                <button onClick={() => dispatchInputArrayChange({type: "decrement"})}>
+                <Button onClick={() => dispatchInputArrayChange({type: "decrement"})}>
                     -
-                </button>
+                </Button>
                 <span>{inputArray.length}</span>
-                <button onClick={() => dispatchInputArrayChange({type: "increment"})}>
+                <Button onClick={() => dispatchInputArrayChange({type: "increment"})}>
                     +
-                </button>
+                </Button>
             </div>
-            <ul>
-                {inputArray.map((i, index) => {
-                    return <li key={index}>
-                        <input
-                            value={i}
-                            onChange={(evt) => dispatchInputArrayChange({
-                                type: "change",
-                                val: evt.target.value,
-                                pos: index
-                            })}
-                            type="text"/>
-                    </li>
-                })}
-            </ul>
+
 
             <div>Dotie burti:
                 {sourceLetters.length > 0 &&
