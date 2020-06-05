@@ -1,12 +1,14 @@
-import {useRecoilValue} from "recoil";
+import {useRecoilState, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState} from "recoil";
 import {CorpusQuery} from "../AppData";
-import React, {useReducer, useState} from "react";
+import React, {Suspense, useReducer, useState} from "react";
 import styled from "styled-components";
 import Iter from "es-iter"
 import Button, {FullWidthButton} from "./Button";
 import InputArray from "./InputArray";
 import Input from "./Input";
 import Results from "./Results";
+import {InputArrayAtom, ResultsAtom, ResultsQuery, SourceLettersAtom} from "./ResultsData";
+import ErrorBoundary from "./ErrorBoundary";
 
 const Title = styled.h1`
   font-size: 20px;
@@ -33,74 +35,51 @@ function reducer(state, action) {
             let newArr = [...state];
             newArr[action.pos] = action.val[0]?.toLowerCase() || "";
             return newArr;
+        case "reset":
+            return state.map(el => "")
         default:
             throw  new Error();
     }
 }
 
+function SolverResults() {
+    // const sourceLettersR = useRecoilValue(SourceLettersAtom)
+    // const inputArrayR = useRecoilValue(InputArrayAtom)
+    const results = useRecoilValue(ResultsQuery)
+    console.log(results)
+    return <Results results={results}/>
+}
 
 export default function Solver() {
-    const corpus = useRecoilValue(CorpusQuery)
     const [sourceLetters, setSourceLetters] = useState([])
     const [inputArray, dispatchInputArrayChange] = useReducer(reducer, ["", "", ""])
-    const [results, setResults] = useState(null)
+    const setResults = useSetRecoilState(ResultsAtom)
 
     const handleSourceChange = (evt) => {
         const val = evt.target.value
+        dispatchInputArrayChange({type: "reset"});
         setSourceLetters(val.toLowerCase().split(""))
     }
 
 
-    const findResults = () => {
-        let results = [];
-
-        const permutations = new Set([...new Iter(sourceLetters).permutations(inputArray.length)].map(s => s.join("")))
-
-        for (let c of permutations) {
-            const resultIndex = corpus.indexOf(c);
-
-            if (resultIndex > -1) {
-                results.push(corpus[resultIndex])
-            }
-        }
-
-        let scrambledLetters = sourceLetters.join("");
-
-        for (let letter of inputArray) {
-            if (letter !== "") {
-                scrambledLetters.replace(letter, "")
-            }
-        }
-
-        const regTempl = inputArray.map(i => {
-            if (i === "") {
-                return `[${scrambledLetters}]`
-            } else {
-                return i
-            }
-        }).join("")
-
-        const final = results.filter(r => {
-            const regexp = new RegExp(regTempl, "g");
-            return regexp.test(r)
-        })
-
-        setResults(final)
-    }
-
     return (
         <>
             <Title>Vārdu Dārza Suflieris</Title>
-            <InputArray onChange={dispatchInputArrayChange} inputArray={inputArray}/>
+            <InputArray onChange={dispatchInputArrayChange}
+                        inputArray={inputArray}
+                        onCountChange={() => dispatchInputArrayChange("clear")}
+            />
             <FullWidthInput
                 placeholder="Dotie burti"
                 value={sourceLetters.join("").toUpperCase()}
                 onChange={handleSourceChange}
                 type="text"/>
-            <FullWidthButton onClick={findResults}>
+            <FullWidthButton onClick={() => setResults({sourceLetters, inputArray})}>
                 Saki priekšā!
             </FullWidthButton>
-            <Results results={results}/>
+            <Suspense fallback={<div>Ielādē rezultātus</div>}>
+                <SolverResults/>
+            </Suspense>
         </>
     )
 }
