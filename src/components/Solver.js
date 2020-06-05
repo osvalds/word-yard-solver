@@ -27,6 +27,7 @@ export default function Solver() {
     const corpus = useRecoilValue(CorpusQuery)
     const [sourceLetters, setSourceLetters] = useState([])
     const [inputArray, dispatchInputArrayChange] = useReducer(reducer, ["", "", ""])
+    const [results, setResults] = useState([])
 
     const handleSourceChange = (evt) => {
         const val = evt.target.value
@@ -37,7 +38,7 @@ export default function Solver() {
     const findResults = () => {
         let results = [];
 
-        const permutations =  new Set ([...new Iter(sourceLetters).permutations(inputArray.length)].map(s => s.join("")))
+        const permutations = new Set([...new Iter(sourceLetters).permutations(inputArray.length)].map(s => s.join("")))
 
         for (let c of permutations) {
             const resultIndex = corpus.indexOf(c);
@@ -47,7 +48,32 @@ export default function Solver() {
             }
         }
 
-        console.log(results);
+        let scrambledLetters = sourceLetters.join("");
+
+        for (let letter of inputArray) {
+            if (letter !== "") {
+                scrambledLetters.replace(letter, "")
+            }
+        }
+
+        const regTempl = inputArray.map(i => {
+            if (i === "") {
+                return `[${scrambledLetters}]`
+            } else {
+                return i
+            }
+        }).join("")
+
+        const final = results.filter(r => {
+            const regexp = new RegExp(regTempl, "g");
+            // console.log(regexp)
+            // console.log(r)
+            return regexp.test(r)
+        })
+
+        setResults(final)
+        // console.log(regTempl);
+        // console.log(results);
     }
 
     return (
@@ -94,6 +120,10 @@ export default function Solver() {
             <button onClick={findResults}>
                 Find results
             </button>
+            {results.length > 0 &&
+            results.map(r => <div key={r}>{r}</div>)
+            }
+
         </>
     )
 }
