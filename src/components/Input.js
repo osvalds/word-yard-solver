@@ -6,6 +6,8 @@ const StyledInput = styled.input`
   padding: 8px;
   display: block;
   text-align: center;
+  border: 1px solid #457B9D;
+  border-radius: 5px;
 `
 
 export default function Input(props) {

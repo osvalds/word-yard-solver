@@ -11,6 +11,8 @@ const ButtonStyled = styled.button`
   justify-content: center;
   align-items: center;
   min-width: ${42 + 16}px;
+  padding: 12px 8px;
+  user-select: none;
 `
 
 const ButtonSquaredStyled = styled(ButtonStyled)`
@@ -30,3 +32,11 @@ export function SquaredButton(props) {
         <ButtonSquaredStyled {...props}/>
     )
 }
+
+export const FullWidthButton = styled(Button)`
+  width: 100%;
+  margin-top: 12px;
+  padding: 0;
+  height: 42px;
+  font-size: 20px;
+`

@@ -1,9 +1,22 @@
 import {useRecoilValue} from "recoil";
 import {CorpusQuery} from "../AppData";
 import React, {useReducer, useState} from "react";
+import styled from "styled-components";
 import Iter from "es-iter"
-import Button from "./Button";
+import Button, {FullWidthButton} from "./Button";
 import InputArray from "./InputArray";
+import Input from "./Input";
+
+const Title = styled.h1`
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+`
+
+const FullWidthInput = styled(Input)`
+  width: 100%;
+`
 
 function reducer(state, action) {
     switch (action.type) {
@@ -17,7 +30,7 @@ function reducer(state, action) {
             }
         case "change":
             let newArr = [...state];
-            newArr[action.pos] = action.val
+            newArr[action.pos] = action.val[0]?.toLowerCase() || "";
             return newArr;
         default:
             throw  new Error();
@@ -33,7 +46,7 @@ export default function Solver() {
 
     const handleSourceChange = (evt) => {
         const val = evt.target.value
-        setSourceLetters(val.split(""))
+        setSourceLetters(val.toLowerCase().split(""))
     }
 
 
@@ -80,25 +93,18 @@ export default function Solver() {
 
     return (
         <>
+            <Title>Vārdu Dārza Suflieris</Title>
             <InputArray onChange={dispatchInputArrayChange} inputArray={inputArray}/>
-
-            <div>Dotie burti:
-                {sourceLetters.length > 0 &&
-                sourceLetters.map((letter, index) => {
-                        return <span key={index}>'{letter}'
-                            {index < sourceLetters.length - 1 && ","}
-                        </span>
-                    }
-                )}
-            </div>
-            <input
+            <FullWidthInput
+                placeholder="Dotie burti"
+                value={sourceLetters.join("").toUpperCase()}
                 onChange={handleSourceChange}
                 type="text"/>
 
+            <FullWidthButton onClick={findResults}>
+                Saki priekšā!
+            </FullWidthButton>
 
-            <button onClick={findResults}>
-                Find results
-            </button>
             {results.length > 0 &&
             results.map(r => <div key={r}>{r}</div>)
             }
