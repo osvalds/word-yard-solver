@@ -81,17 +81,6 @@ export default function Solver() {
     return (
         <>
             <InputArray onChange={dispatchInputArrayChange} inputArray={inputArray}/>
-            <div>
-                Minamā vārda garums:
-                <Button onClick={() => dispatchInputArrayChange({type: "decrement"})}>
-                    -
-                </Button>
-                <span>{inputArray.length}</span>
-                <Button onClick={() => dispatchInputArrayChange({type: "increment"})}>
-                    +
-                </Button>
-            </div>
-
 
             <div>Dotie burti:
                 {sourceLetters.length > 0 &&

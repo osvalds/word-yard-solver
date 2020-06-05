@@ -58,7 +58,7 @@ table {
 
 body {
   background: var(--background);
-  padding: 12px;
+  padding: 16px 8px;
 }
 
 * {
