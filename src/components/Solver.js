@@ -6,6 +6,7 @@ import Iter from "es-iter"
 import Button, {FullWidthButton} from "./Button";
 import InputArray from "./InputArray";
 import Input from "./Input";
+import Results from "./Results";
 
 const Title = styled.h1`
   font-size: 20px;
@@ -42,7 +43,7 @@ export default function Solver() {
     const corpus = useRecoilValue(CorpusQuery)
     const [sourceLetters, setSourceLetters] = useState([])
     const [inputArray, dispatchInputArrayChange] = useReducer(reducer, ["", "", ""])
-    const [results, setResults] = useState([])
+    const [results, setResults] = useState(null)
 
     const handleSourceChange = (evt) => {
         const val = evt.target.value
@@ -81,14 +82,10 @@ export default function Solver() {
 
         const final = results.filter(r => {
             const regexp = new RegExp(regTempl, "g");
-            // console.log(regexp)
-            // console.log(r)
             return regexp.test(r)
         })
 
         setResults(final)
-        // console.log(regTempl);
-        // console.log(results);
     }
 
     return (
@@ -100,15 +97,10 @@ export default function Solver() {
                 value={sourceLetters.join("").toUpperCase()}
                 onChange={handleSourceChange}
                 type="text"/>
-
             <FullWidthButton onClick={findResults}>
                 Saki priekšā!
             </FullWidthButton>
-
-            {results.length > 0 &&
-            results.map(r => <div key={r}>{r}</div>)
-            }
-
+            <Results results={results}/>
         </>
     )
 }
