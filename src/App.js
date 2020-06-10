@@ -2,8 +2,8 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './App.css';
 import ErrorBoundary from "./components/ErrorBoundary";
 import Solver from "./components/Solver";
-import worker from "workerize-loader!./worker/find" // eslint-disable-line import/no-webpack-loader-syntax
-
+import worker from "workerize-loader!./worker/find"// eslint-disable-line import/no-webpack-loader-syntax
+import {InlineLoading} from "./components/InlineLoading";
 
 function App() {
     const [isLoaded, setIsLoaded] = useState("loading")
@@ -36,7 +36,7 @@ function App() {
 
     switch (isLoaded) {
         case "loading":
-            return <div>Lādē latviešu valodu...</div>
+            return <InlineLoading text="Lādē latviešu valodu"/>
         case "error":
             return <div>Kļūda ielādējot latviešu valodu</div>
         case "loaded":

@@ -65,3 +65,7 @@ body {
 * {
   color: var(--text-color);
 }
+
+html, body, #root {
+  height: 100%;
+}

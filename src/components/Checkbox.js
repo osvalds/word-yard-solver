@@ -6,6 +6,7 @@ import styled from "styled-components";
 const BlankCheckbox = styled(Blank)`
   width: 24px;
   height: 24px;
+  fill: #457B9D;
 `
 
 const CheckedCheckBox = styled(Checked)`

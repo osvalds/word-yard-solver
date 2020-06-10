@@ -1,11 +1,12 @@
-import React, {useCallback, useEffect, useReducer, useState} from "react";
+import React, {useCallback, useEffect, useReducer, useRef, useState} from "react";
 import styled from "styled-components";
 import {FullWidthButton} from "./Button";
 import {ReactComponent as Clear} from "../icons/clear.svg";
 import InputArray from "./InputArray";
-import Input from "./Input";
+import {Input} from "./Input";
 import Results from "./Results";
 import {serializeInput} from "../Util";
+import {InlineLoading} from "./InlineLoading";
 
 const Title = styled.h1`
   font-size: 20px;
@@ -61,7 +62,7 @@ function SolverResults(props) {
         case "initial":
             return null
         case "loading":
-            return <div>Lādē rezultātus</div>
+            return <InlineLoading text={"Lādē rezultātus"}/>
         default:
             return <Results {...props}/>
     }
@@ -90,6 +91,7 @@ export default function Solver({workerRef}) {
     const [results, setResults] = useState({state: "initial"})
     const [usedResults, dispatchUsedResultsChange] = useReducer(usedResultsReducer, new Set())
     const [search, setSearch] = useState("");
+    const inputRef = useRef(null)
 
     const handleSourceChange = (evt) => {
         const val = evt.target.value
@@ -134,6 +136,7 @@ export default function Solver({workerRef}) {
         setResults({state: "initial"})
         dispatchUsedResultsChange({type: "reset"})
         dispatchInputArrayChange({type: "reset"})
+        inputRef.current.focus();
     }, [setSourceLetters, setResults, dispatchUsedResultsChange, dispatchInputArrayChange])
 
     return (
@@ -147,6 +150,7 @@ export default function Solver({workerRef}) {
                     placeholder="Dotie burti"
                     value={sourceLetters.join("").toUpperCase()}
                     onChange={handleSourceChange}
+                    ref={inputRef}
                     type="text"/>
                 {sourceLetters.length > 0 &&
                 <ClearSearch onClick={resetState}/>}

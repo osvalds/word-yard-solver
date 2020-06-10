@@ -10,9 +10,6 @@ const StyledInput = styled.input`
   border-radius: 5px;
 `
 
-export default function Input(props) {
-
-    return (
-        <StyledInput {...props}/>
-    )
-}
+export const Input = React.forwardRef((props, ref) => (
+    <StyledInput ref={ref} {...props}/>
+));

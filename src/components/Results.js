@@ -4,8 +4,6 @@ import Checkbox from "./Checkbox";
 
 const ResultsWrapper = styled.div`
 margin: 12px -8px;
-overflow: auto;
-height: 100%;
 `
 
 const ResultsItemWrapper = styled.div`
@@ -13,8 +11,10 @@ const ResultsItemWrapper = styled.div`
   padding: 8px;
   display: flex;
   align-items: center;
+  transition: .2s linear;
+   
   &:hover {
-    background-color: #d4d4d4;
+    background-color: #d8e2e6;
   }
   
   @media (hover: none) {
