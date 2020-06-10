@@ -43,11 +43,9 @@ function App() {
         case "loaded":
         default:
             return (
-                <RecoilRoot>
-                    <ErrorBoundary>
-                        <Solver workerRef={workerRef}/>
-                    </ErrorBoundary>
-                </RecoilRoot>
+                <ErrorBoundary>
+                    <Solver workerRef={workerRef}/>
+                </ErrorBoundary>
             );
     }
 }

@@ -1,14 +1,10 @@
-import {useRecoilState, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState} from "recoil";
-import {CorpusQuery} from "../AppData";
-import React, {Suspense, useReducer, useState} from "react";
+import React, {useCallback, useEffect, useReducer, useState} from "react";
 import styled from "styled-components";
-import Iter from "es-iter"
 import Button, {FullWidthButton} from "./Button";
 import InputArray from "./InputArray";
 import Input from "./Input";
 import Results from "./Results";
-import {InputArrayAtom, ResultsAtom, ResultsQuery, SourceLettersAtom} from "./ResultsData";
-import ErrorBoundary from "./ErrorBoundary";
+import {serializeInput} from "../Util";
 
 const Title = styled.h1`
   font-size: 20px;
@@ -42,23 +38,59 @@ function reducer(state, action) {
     }
 }
 
-function SolverResults() {
-    // const sourceLettersR = useRecoilValue(SourceLettersAtom)
-    // const inputArrayR = useRecoilValue(InputArrayAtom)
-    const results = useRecoilValue(ResultsQuery)
-    return <Results results={results}/>
+function SolverResults({results}) {
+    switch (results.state) {
+        case "initial":
+            return null
+        case "loading":
+            return <div>Lādē rezultātus</div>
+        default:
+            return <Results results={results.data}/>
+    }
 }
 
-export default function Solver() {
+export default function Solver({workerRef}) {
     const [sourceLetters, setSourceLetters] = useState([])
     const [inputArray, dispatchInputArrayChange] = useReducer(reducer, ["", "", ""])
-    const setResults = useSetRecoilState(ResultsAtom)
+    const [results, setResults] = useState({state: "initial"})
+    const [search, setSearch] = useState("");
 
     const handleSourceChange = (evt) => {
         const val = evt.target.value
-        dispatchInputArrayChange({type: "reset"});
+        dispatchInputArrayChange({type: "reset"})
         setSourceLetters(val.toLowerCase().split(""))
     }
+
+    const handleWorkerMessage = useCallback((message) => {
+        switch (message.data.type) {
+            case "results-success":
+                if (message.data.input === search) {
+                    setResults({
+                        state: "loaded",
+                        data: message.data.results
+                    })
+                }
+                break;
+            default:
+                break;
+        }
+    }, [setResults, search])
+
+    useEffect(() => {
+        const worker = workerRef.current;
+        worker.addEventListener("message", handleWorkerMessage)
+
+        return () => {
+            worker.removeEventListener("message", handleWorkerMessage)
+        }
+    }, [handleWorkerMessage])
+
+    const handleSubmit = useCallback(() => {
+        const newsearch = serializeInput({inputArray, sourceLetters});
+        setSearch(newsearch);
+        workerRef.current.findResults({inputArray, sourceLetters})
+        setResults({state: "loading"})
+    }, [inputArray, sourceLetters, setResults, setSearch])
 
     return (
         <>
@@ -72,12 +104,10 @@ export default function Solver() {
                 value={sourceLetters.join("").toUpperCase()}
                 onChange={handleSourceChange}
                 type="text"/>
-            <FullWidthButton onClick={() => setResults({sourceLetters, inputArray})}>
+            <FullWidthButton onClick={handleSubmit}>
                 Saki priekšā!
             </FullWidthButton>
-            <Suspense fallback={<div>Ielādē rezultātus</div>}>
-                <SolverResults/>
-            </Suspense>
+            <SolverResults results={results}/>
         </>
     )
 }
