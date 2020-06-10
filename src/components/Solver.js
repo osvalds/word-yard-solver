@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useReducer, useState} from "react";
 import styled from "styled-components";
-import Button, {FullWidthButton} from "./Button";
+import {FullWidthButton} from "./Button";
+import {ReactComponent as Clear} from "../icons/clear.svg";
 import InputArray from "./InputArray";
 import Input from "./Input";
 import Results from "./Results";
@@ -15,6 +16,20 @@ const Title = styled.h1`
 
 const FullWidthInput = styled(Input)`
   width: 100%;
+`
+
+const SearchWrapper = styled.div`
+  position:relative;
+`
+
+const ClearSearch = styled(Clear)`
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    fill: #c2c2c2;
 `
 
 function reducer(state, action) {
@@ -92,6 +107,11 @@ export default function Solver({workerRef}) {
         setResults({state: "loading"})
     }, [inputArray, sourceLetters, setResults, setSearch])
 
+    const resetState = useCallback(() => {
+        setSourceLetters([])
+        setResults({state: "initial"})
+    }, [setSourceLetters, setResults])
+
     return (
         <>
             <Title>Vārdu Dārza Suflieris</Title>
@@ -99,11 +119,15 @@ export default function Solver({workerRef}) {
                         inputArray={inputArray}
                         onCountChange={() => dispatchInputArrayChange("clear")}
             />
-            <FullWidthInput
-                placeholder="Dotie burti"
-                value={sourceLetters.join("").toUpperCase()}
-                onChange={handleSourceChange}
-                type="text"/>
+            <SearchWrapper>
+                <FullWidthInput
+                    placeholder="Dotie burti"
+                    value={sourceLetters.join("").toUpperCase()}
+                    onChange={handleSourceChange}
+                    type="text"/>
+                {sourceLetters.length > 0 &&
+                <ClearSearch onClick={resetState}/>}
+            </SearchWrapper>
             <FullWidthButton onClick={handleSubmit}>
                 Saki priekšā!
             </FullWidthButton>

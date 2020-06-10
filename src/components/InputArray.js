@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Input from "./Input";
-import Button, {SquaredButton} from "./Button";
+import {SquaredButton} from "./Button";
 import {ReactComponent as Add} from "../icons/add.svg";
 import {ReactComponent as Remove} from "../icons/remove.svg";
 
