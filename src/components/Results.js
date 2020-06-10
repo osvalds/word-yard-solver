@@ -3,17 +3,30 @@ import styled from "styled-components";
 import Checkbox from "./Checkbox";
 
 const ResultsWrapper = styled.div`
+margin: 12px -8px;
 overflow: auto;
 height: 100%;
 `
 
 const ResultsItemWrapper = styled.div`
-  padding: 8px 0;
+  cursor: pointer;
+  padding: 8px;
   display: flex;
   align-items: center;
+  &:hover {
+    background-color: #d4d4d4;
+  }
+  
+  @media (hover: none) {
+   &:hover {
+    background-color: transparent;
+   }
+}
 `
 
 const ResultText = styled.div`
+  color: ${props => props.isUsed ? "#616161" : ""};
+  margin-left: 8px;
   text-decoration: ${props => props.isUsed ? "line-through" : "none"};
 `
 

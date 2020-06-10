@@ -30,6 +30,7 @@ const ClearSearch = styled(Clear)`
     top: 50%;
     transform: translateY(-50%);
     fill: #c2c2c2;
+    cursor: pointer;
 `
 
 function reducer(state, action) {
@@ -132,7 +133,8 @@ export default function Solver({workerRef}) {
         setSourceLetters([])
         setResults({state: "initial"})
         dispatchUsedResultsChange({type: "reset"})
-    }, [setSourceLetters, setResults, dispatchUsedResultsChange])
+        dispatchInputArrayChange({type: "reset"})
+    }, [setSourceLetters, setResults, dispatchUsedResultsChange, dispatchInputArrayChange])
 
     return (
         <>
