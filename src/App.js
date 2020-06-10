@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {RecoilRoot} from "recoil";
 import './App.css';
 import ErrorBoundary from "./components/ErrorBoundary";
 import Solver from "./components/Solver";

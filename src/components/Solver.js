@@ -49,18 +49,37 @@ function reducer(state, action) {
         case "reset":
             return [...state].fill("")
         default:
-            throw  new Error();
+            throw new Error();
     }
 }
 
-function SolverResults({results}) {
+function SolverResults(props) {
+    const {results} = props;
+
     switch (results.state) {
         case "initial":
             return null
         case "loading":
             return <div>Lādē rezultātus</div>
         default:
-            return <Results results={results.data}/>
+            return <Results {...props}/>
+    }
+}
+
+function usedResultsReducer(state, action) {
+    switch (action.type) {
+        case "toggle":
+            if (state.has(action.data)) {
+                let nState = new Set(state);
+                nState.delete(action.data);
+                return nState
+            } else {
+                return new Set(state).add(action.data);
+            }
+        case "reset":
+            return new Set();
+        default:
+            throw new Error();
     }
 }
 
@@ -68,12 +87,14 @@ export default function Solver({workerRef}) {
     const [sourceLetters, setSourceLetters] = useState([])
     const [inputArray, dispatchInputArrayChange] = useReducer(reducer, ["", "", ""])
     const [results, setResults] = useState({state: "initial"})
+    const [usedResults, dispatchUsedResultsChange] = useReducer(usedResultsReducer, new Set())
     const [search, setSearch] = useState("");
 
     const handleSourceChange = (evt) => {
         const val = evt.target.value
         dispatchInputArrayChange({type: "reset"})
         setSourceLetters(val.toLowerCase().split(""))
+        dispatchUsedResultsChange({type: "reset"})
     }
 
     const handleWorkerMessage = useCallback((message) => {
@@ -110,7 +131,8 @@ export default function Solver({workerRef}) {
     const resetState = useCallback(() => {
         setSourceLetters([])
         setResults({state: "initial"})
-    }, [setSourceLetters, setResults])
+        dispatchUsedResultsChange({type: "reset"})
+    }, [setSourceLetters, setResults, dispatchUsedResultsChange])
 
     return (
         <>
@@ -130,7 +152,10 @@ export default function Solver({workerRef}) {
             <FullWidthButton onClick={handleSubmit}>
                 Saki priekšā!
             </FullWidthButton>
-            <SolverResults results={results}/>
+            <SolverResults results={results}
+                           usedResultsDispatcher={dispatchUsedResultsChange}
+                           usedResults={usedResults}
+            />
         </>
     )
 }

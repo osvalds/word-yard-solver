@@ -73,5 +73,4 @@ export default function InputArray({inputArray, onChange}) {
             </ControlsWrapper>
         </>
     )
-
 }
