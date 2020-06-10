@@ -1,10 +1,11 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {FirebaseContext} from "./Firebase";
 import styled from "styled-components";
 import {FullWidthInput, Input} from "./Input";
 import {Button, FullWidthButton} from "./Button";
 
 const SubmitStyled = styled.div`
+  user-select: none;
   text-align: right;
   color: #457B9D;
   text-decoration: underline;
@@ -14,7 +15,11 @@ const SubmitStyled = styled.div`
 
 const ModalWrapper = styled.div`
   position: fixed;
-  left: 0;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   top: 0;
   z-index: 1000;
   background: var(--background);
@@ -22,13 +27,27 @@ const ModalWrapper = styled.div`
 `
 
 const StyledLabel = styled.label`
-
+  display: block;
+  margin-top: 24px;
+  margin-bottom: 8px;
 `
 
 const Paragraph = styled.p`
   line-height: 1.5;
   font-size: 16px;
   margin-bottom: 16px;
+`
+
+const A = styled.a`
+  text-decoration: underline;
+  color: #457B9D;
+  cursor: pointer;
+`
+
+const CloseModal = styled(A)`
+  padding: 8px 0 16px;
+  display: block;
+  text-align: right;
 `
 
 function SubmitMissingModal({setShowModal}) {
@@ -44,13 +63,20 @@ function SubmitMissingModal({setShowModal}) {
     return (
         <ModalWrapper>
             <div>
+                <CloseModal onClick={() => setShowModal(false)}>
+                    Aizvērt
+                </CloseModal>
                 <Paragraph>
-                    Vārdu Dārza Suflieris izmanto <a>LUMII Tēzaura</a> datu kopu, lai meklētu potenciālos atrisinājumus.
-                    Kaut arī datu kopā ir vairāk nekā 300 000 ierakstu, Vārdu Dārzā mēdz parādīties vārdi, kurus Suflieris neprot atminēt.
+                    Vārdu Dārza Suflieris izmanto <A href="https://github.com/LUMII-AILab/Tezaurs" target="_blank"
+                                                     rel="noreferrer">LUMII
+                    Tēzaura</A> datu kopu, lai meklētu potenciālos atrisinājumus.
+                    Kaut arī datu kopā ir vairāk nekā 300 000 ierakstu, Vārdu Dārzā mēdz parādīties vārdi, kurus
+                    Suflieris neprot atminēt.
                     Suflierim problēmas arī sagādā vārda locījumi sieviešu dzimtē.
                 </Paragraph>
                 <Paragraph>
-                    Ja esi uzdūries/-usies uz vārda, kuru Suflieris nevar atrisināt, bet Tev ir sanācis to izdarīt, iesūti risinājumu un es papildināšu
+                    Ja esi uzdūries/-usies uz vārda, kuru Suflieris nevar atrisināt, bet Tev ir sanācis to izdarīt,
+                    iesūti risinājumu un es papildināšu
                     datu kopu ar Tavu atminējumu.
                 </Paragraph>
             </div>
@@ -60,12 +86,12 @@ function SubmitMissingModal({setShowModal}) {
                 onSubmit()
             }}>
                 <StyledLabel for="solution">
-                    Atrisinājums, kuru suflieris nevarēja atrast
+                    Atrisinājums, kuru suflieris nevarēja atrast:
                 </StyledLabel>
                 <FullWidthInput value={missing}
-                       id="solution"
-                       style={{textAlign: "left"}}
-                       onChange={(evt) => setMissing(evt.target.value)}/>
+                                id="solution"
+                                style={{textAlign: "left"}}
+                                onChange={(evt) => setMissing(evt.target.value)}/>
                 <FullWidthButton onClick={onSubmit}>
                     Iesūtīt
                 </FullWidthButton>
@@ -79,8 +105,15 @@ export function SubmitMissing() {
 
     const showSubmit = () => {
         setShowModal(true)
-
     }
+
+    useEffect(() => {
+        if(showModal) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [showModal])
 
     return (
         <>
