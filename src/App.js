@@ -4,6 +4,9 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import Solver from "./components/Solver";
 import worker from "workerize-loader!./worker/find"// eslint-disable-line import/no-webpack-loader-syntax
 import {InlineLoading} from "./components/InlineLoading";
+import Firebase, {FirebaseContext} from "./components/Firebase"
+
+const fb = new Firebase()
 
 function App() {
     const [isLoaded, setIsLoaded] = useState("loading")
@@ -43,7 +46,9 @@ function App() {
         default:
             return (
                 <ErrorBoundary>
-                    <Solver workerRef={workerRef}/>
+                    <FirebaseContext.Provider value={fb}>
+                        <Solver workerRef={workerRef}/>
+                    </FirebaseContext.Provider>
                 </ErrorBoundary>
             );
     }

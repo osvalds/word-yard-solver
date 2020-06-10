@@ -12,7 +12,6 @@ const LoadingText = styled.div`
   margin-left: 12px;
 `
 
-
 export function InlineLoading({text}) {
     return <LoadingWrapper>
         <Ellipsis color="#2ec4b6"/>

@@ -3,10 +3,11 @@ import styled from "styled-components";
 import {FullWidthButton} from "./Button";
 import {ReactComponent as Clear} from "../icons/clear.svg";
 import InputArray from "./InputArray";
-import {Input} from "./Input";
+import {FullWidthInput} from "./Input";
 import Results from "./Results";
 import {serializeInput} from "../Util";
 import {InlineLoading} from "./InlineLoading";
+import {SubmitMissing} from "./SubmitMissing";
 
 const Title = styled.h1`
   font-size: 20px;
@@ -15,9 +16,6 @@ const Title = styled.h1`
   text-align: center;
 `
 
-const FullWidthInput = styled(Input)`
-  width: 100%;
-`
 
 const SearchWrapper = styled.div`
   position:relative;
@@ -141,6 +139,7 @@ export default function Solver({workerRef}) {
 
     return (
         <>
+            <SubmitMissing/>
             <Title>Vārdu Dārza Suflieris</Title>
             <InputArray onChange={dispatchInputArrayChange}
                         inputArray={inputArray}

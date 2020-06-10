@@ -13,3 +13,7 @@ const StyledInput = styled.input`
 export const Input = React.forwardRef((props, ref) => (
     <StyledInput ref={ref} {...props}/>
 ));
+
+export const FullWidthInput = styled(Input)`
+  width: 100%;
+`
