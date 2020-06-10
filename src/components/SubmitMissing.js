@@ -1,8 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
 import {FirebaseContext} from "./Firebase";
 import styled from "styled-components";
-import {FullWidthInput, Input} from "./Input";
-import {Button, FullWidthButton} from "./Button";
+import {FullWidthInput} from "./Input";
+import {FullWidthButton} from "./Button";
+import {useToasts} from "./Toasts/ToastsProvider";
 
 const SubmitStyled = styled.div`
   user-select: none;
@@ -21,6 +22,7 @@ const ModalWrapper = styled.div`
   left: 50%;
   transform: translateX(-50%);
   top: 0;
+  overflow: auto;
   z-index: 1000;
   background: var(--background);
   padding: 16px
@@ -53,43 +55,51 @@ const CloseModal = styled(A)`
 function SubmitMissingModal({setShowModal}) {
     const firebase = useContext(FirebaseContext)
     const [missing, setMissing] = useState("")
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [toasts, setToasts] = useToasts();
 
     const onSubmit = () => {
-        firebase.db.collection("missing").add({lemma: missing})
+        firebase.db.collection("missing").add({lemma: missing}).then(resp => {
+            setToasts({
+                action: "add",
+                data: {
+                    duration: 5,
+                    title: "Paldies, saņēmu!"
+                }
+            })
+        })
         setShowModal(false);
     }
 
     return (
         <ModalWrapper>
-            <div>
-                <CloseModal onClick={() => setShowModal(false)}>
-                    Aizvērt
-                </CloseModal>
-                <Paragraph>
-                    Vārdu Dārza Suflieris izmanto <A href="https://github.com/LUMII-AILab/Tezaurs" target="_blank"
-                                                     rel="noreferrer">LUMII
-                    Tēzaura</A> datu kopu, lai meklētu potenciālos atrisinājumus.
-                    Kaut arī datu kopā ir vairāk nekā 300 000 ierakstu, Vārdu Dārzā mēdz parādīties vārdi, kurus
-                    Suflieris neprot atminēt.
-                    Suflierim problēmas arī sagādā vārda locījumi sieviešu dzimtē.
-                </Paragraph>
-                <Paragraph>
-                    Ja esi uzdūries/-usies uz vārda, kuru Suflieris nevar atrisināt, bet Tev ir sanācis to izdarīt,
-                    iesūti risinājumu un es papildināšu
-                    datu kopu ar Tavu atminējumu.
-                </Paragraph>
-            </div>
+            <CloseModal onClick={() => setShowModal(false)}>
+                Aizvērt
+            </CloseModal>
+            <Paragraph>
+                Vārdu Dārza Suflieris izmanto <A href="https://github.com/LUMII-AILab/Tezaurs" target="_blank"
+                                                 rel="noreferrer">LUMII
+                Tēzaura</A> datu kopu, lai meklētu potenciālos atrisinājumus.
+                Kaut arī datu kopā ir vairāk nekā 300 000 ierakstu, Vārdu Dārzā mēdz parādīties vārdi, kurus
+                Suflieris neprot atminēt.
+                Suflierim problēmas arī sagādā vārda locījumi sieviešu dzimtē.
+            </Paragraph>
+            <Paragraph>
+                Ja esi uzdūries/-usies uz vārda, kuru Suflieris nevar atrisināt, bet Tev ir sanācis to izdarīt,
+                iesūti risinājumu un es papildināšu
+                datu kopu ar Tavu atminējumu.
+            </Paragraph>
 
             <form onSubmit={(event) => {
                 event.preventDefault();
                 onSubmit()
             }}>
-                <StyledLabel for="solution">
+                <StyledLabel htmlFor="solution">
                     Atrisinājums, kuru suflieris nevarēja atrast:
                 </StyledLabel>
                 <FullWidthInput value={missing}
+                                autocomplete="off"
                                 id="solution"
+                                placeholder="Vārds"
                                 style={{textAlign: "left"}}
                                 onChange={(evt) => setMissing(evt.target.value)}/>
                 <FullWidthButton onClick={onSubmit}>
@@ -108,7 +118,7 @@ export function SubmitMissing() {
     }
 
     useEffect(() => {
-        if(showModal) {
+        if (showModal) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";

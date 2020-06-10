@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {FullWidthButton} from "./Button";
 import {ReactComponent as Clear} from "../icons/clear.svg";
 import InputArray from "./InputArray";
-import {FullWidthInput} from "./Input";
+import {FullWidthInput, Input} from "./Input";
 import Results from "./Results";
 import {serializeInput} from "../Util";
 import {InlineLoading} from "./InlineLoading";

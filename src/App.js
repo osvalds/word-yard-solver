@@ -5,6 +5,8 @@ import Solver from "./components/Solver";
 import worker from "workerize-loader!./worker/find"// eslint-disable-line import/no-webpack-loader-syntax
 import {InlineLoading} from "./components/InlineLoading";
 import Firebase, {FirebaseContext} from "./components/Firebase"
+import ToastsProvider from "./components/Toasts/ToastsProvider";
+import ToastsPanel from "./components/Toasts/ToastsPanel";
 
 const fb = new Firebase()
 
@@ -47,7 +49,10 @@ function App() {
             return (
                 <ErrorBoundary>
                     <FirebaseContext.Provider value={fb}>
-                        <Solver workerRef={workerRef}/>
+                        <ToastsProvider>
+                            <Solver workerRef={workerRef}/>
+                            <ToastsPanel/>
+                        </ToastsProvider>
                     </FirebaseContext.Provider>
                 </ErrorBoundary>
             );
