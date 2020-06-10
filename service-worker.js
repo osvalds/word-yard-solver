@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/word-yard-solver/precache-manifest.855748dfd09e3944abcf37ceac3ddf7b.js"
+  "/word-yard-solver/precache-manifest.4556adba42db45fd4473b9acb98db29f.js"
 );
 
 self.addEventListener('message', (event) => {

@@ -4,7 +4,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/word-yard-solver/7a64ec12ecf5e6cab25e.worker.js"
   },
   {
-    "revision": "e16335b395471c4a73e34467a1728feb",
+    "revision": "f459a92638425d653d80e8055d0d9598",
     "url": "/word-yard-solver/index.html"
   },
   {
