@@ -46,7 +46,6 @@ function SolverResults() {
     // const sourceLettersR = useRecoilValue(SourceLettersAtom)
     // const inputArrayR = useRecoilValue(InputArrayAtom)
     const results = useRecoilValue(ResultsQuery)
-    console.log(results)
     return <Results results={results}/>
 }
 
@@ -60,7 +59,6 @@ export default function Solver() {
         dispatchInputArrayChange({type: "reset"});
         setSourceLetters(val.toLowerCase().split(""))
     }
-
 
     return (
         <>
