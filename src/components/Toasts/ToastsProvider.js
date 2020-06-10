@@ -20,6 +20,8 @@ function toastsReducer(state, action) {
             return [...state, action.data]
         case "remove":
             return state.filter(toast => toast.id !== action.data.id)
+        default:
+            throw new Error();
     }
 }
 

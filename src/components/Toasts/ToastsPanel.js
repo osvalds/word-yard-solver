@@ -40,6 +40,8 @@ function ToastNotification({id, title, subtitle, duration = 20, kind = "info", c
             closeToast()
         }, duration * 1000)
         return () => clearTimeout(timer);
+
+        //eslint-disable-next-line
     }, [])
 
     return <InlineNotification title={title}/>

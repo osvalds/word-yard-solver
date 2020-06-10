@@ -55,6 +55,7 @@ const CloseModal = styled(A)`
 function SubmitMissingModal({setShowModal}) {
     const firebase = useContext(FirebaseContext)
     const [missing, setMissing] = useState("")
+    //eslint-disable-next-line
     const [toasts, setToasts] = useToasts();
 
     const onSubmit = () => {

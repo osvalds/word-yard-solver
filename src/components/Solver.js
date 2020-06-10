@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {FullWidthButton} from "./Button";
 import {ReactComponent as Clear} from "../icons/clear.svg";
 import InputArray from "./InputArray";
-import {FullWidthInput, Input} from "./Input";
+import {FullWidthInput} from "./Input";
 import Results from "./Results";
 import {serializeInput} from "../Util";
 import {InlineLoading} from "./InlineLoading";
@@ -120,14 +120,14 @@ export default function Solver({workerRef}) {
         return () => {
             worker.removeEventListener("message", handleWorkerMessage)
         }
-    }, [handleWorkerMessage])
+    }, [handleWorkerMessage, workerRef])
 
     const handleSubmit = useCallback(() => {
         const newsearch = serializeInput({inputArray, sourceLetters});
         setSearch(newsearch);
         workerRef.current.findResults({inputArray, sourceLetters})
         setResults({state: "loading"})
-    }, [inputArray, sourceLetters, setResults, setSearch])
+    }, [inputArray, sourceLetters, setResults, setSearch, workerRef])
 
     const resetState = useCallback(() => {
         setSourceLetters([])
