@@ -21,6 +21,7 @@ const ControlsWrapper = styled.div`
 `
 
 const SizeContainer = styled.span`
+  user-select: none;
   font-size: 20px;
 `
 
@@ -58,7 +59,10 @@ export default function InputArray({inputArray, onChange}) {
                     onClick={() => onChange({type: "decrement"})}>
                     <RemoveStyled/>
                 </SquaredButton>
-                <SizeContainer>
+                <SizeContainer onClick={(e) => {
+                    e.preventDefault();
+                    onChange({type: "reset"})
+                }}>
                     Vārda garums: {inputArray.length}
                 </SizeContainer>
                 <SquaredButton

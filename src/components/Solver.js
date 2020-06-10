@@ -35,19 +35,19 @@ const ClearSearch = styled(Clear)`
 function reducer(state, action) {
     switch (action.type) {
         case "increment":
-            return [...state, ""]
+            return [...state, ""].fill("")
         case "decrement":
             if (state.length === 0) {
                 return []
             } else {
-                return state.slice(0, -1)
+                return state.slice(0, -1).fill("")
             }
         case "change":
             let newArr = [...state];
             newArr[action.pos] = action.val[0]?.toLowerCase() || "";
             return newArr;
         case "reset":
-            return state.map(el => "")
+            return [...state].fill("")
         default:
             throw  new Error();
     }
@@ -117,7 +117,6 @@ export default function Solver({workerRef}) {
             <Title>Vārdu Dārza Suflieris</Title>
             <InputArray onChange={dispatchInputArrayChange}
                         inputArray={inputArray}
-                        onCountChange={() => dispatchInputArrayChange("clear")}
             />
             <SearchWrapper>
                 <FullWidthInput

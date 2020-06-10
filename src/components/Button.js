@@ -21,7 +21,7 @@ const ButtonSquaredStyled = styled(ButtonStyled)`
   height: ${props => props.size || 16}px;
 `
 
-export default function Button(props) {
+function Button(props) {
     return (
         <ButtonStyled {...props}/>
     )
