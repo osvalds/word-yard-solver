@@ -73,4 +73,5 @@ html, body, #root {
 #root {
   max-width: 500px;
   margin: 0 auto;
+  touch-action: manipulation;
 }
