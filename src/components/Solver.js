@@ -8,6 +8,7 @@ import Results from "./Results";
 import {serializeInput} from "../Util";
 import {InlineLoading} from "./InlineLoading";
 import {SubmitMissing} from "./SubmitMissing";
+//import {ParseXML} from "./ParseXML";
 
 const Title = styled.h1`
   font-size: 20px;
@@ -15,7 +16,6 @@ const Title = styled.h1`
   font-weight: bold;
   text-align: center;
 `
-
 
 const SearchWrapper = styled.div`
   position:relative;
@@ -161,6 +161,7 @@ export default function Solver({workerRef}) {
                            usedResultsDispatcher={dispatchUsedResultsChange}
                            usedResults={usedResults}
             />
+            {/*<ParseXML/>*/}
         </>
     )
 }

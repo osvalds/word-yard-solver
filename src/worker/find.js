@@ -2,13 +2,35 @@ import axios from "axios"
 import Iter from "es-iter";
 import {serializeInput} from "../Util";
 
-let corpus = null
+let corpusDict = new Map()
+
+// this does basically: https://stackoverflow.com/questions/8426178/given-a-string-find-all-its-permutations-that-are-a-word-in-dictionary
+// but a simplified version
+const buildCorpusDict = (corpus) => {
+    // change each word in corpus to alphabetically sorted string
+    const corpusWordLettersSorted = corpus.map(word => [...word].sort((a, b) => a.localeCompare(b)).join(""))
+
+    // This will populate a map where the alphabetically sorted string is key
+    // and the corresponding values in the corpus will be value array
+    for (let i = 0, l = corpus.length; i < l; i++) {
+        const sortedKey = corpusWordLettersSorted[i];
+        const value = corpus[i];
+
+        const currentVal = corpusDict.get(sortedKey);
+
+        if(currentVal === undefined) {
+            corpusDict.set(sortedKey, [value])
+        } else {
+            corpusDict.set(sortedKey, [...currentVal, value])
+        }
+    }
+}
 
 export const loadCorpus = async () => {
-    const result = await axios(process.env.PUBLIC_URL + "/corpus.json")
+    const result = await axios(process.env.PUBLIC_URL + "/corpus_full.json")
 
     try {
-        corpus = result.data
+        buildCorpusDict(result.data)
         postMessage({type: "corpus-success"})
     } catch (error) {
         postMessage({
@@ -21,13 +43,17 @@ export const loadCorpus = async () => {
 export const findResults = ({sourceLetters, inputArray}) => {
     let results = [];
 
-    const permutations = new Set([...new Iter(sourceLetters).permutations(inputArray.length)].map(s => s.join("")))
+    // sort inputs alphabetically
+    const sortedSource = [...sourceLetters].sort((a, b) => a.localeCompare(b));
+    // since keys are sorted alphabetically, we don't need every permutation of the string.
+    // we only need every combination, which will require much fewer searches
+    const combinations = new Set([...new Iter(sortedSource).combinations(inputArray.length)].map(s => s.join("")))
 
-    for (let c of permutations) {
-        const resultIndex = corpus.indexOf(c);
+    for (let c of combinations) {
+        const resultValue = corpusDict.get(c);
 
-        if (resultIndex > -1) {
-            results.push(corpus[resultIndex])
+        if (resultValue !== undefined) {
+            results = results.concat(resultValue)
         }
     }
 
