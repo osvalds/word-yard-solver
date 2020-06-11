@@ -1,4 +1,4 @@
-##Vārdu Dārza Suflieris 
+## Vārdu Dārza Suflieris 
 
 This repo contains "cheats" for a popular word puzzle game "Word Yard" for Latvian language. 
 Word corpus is sourced from the awesome [LUMII Tēzaurs](https://github.com/LUMII-AILab/Tezaurs) repo.
