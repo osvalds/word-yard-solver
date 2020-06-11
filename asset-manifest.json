@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/word-yard-solver/static/css/main.18076a82.chunk.css",
+    "main.css": "/word-yard-solver/static/css/main.3fa28d0d.chunk.css",
     "main.js": "/word-yard-solver/static/js/main.558874d4.chunk.js",
     "main.js.map": "/word-yard-solver/static/js/main.558874d4.chunk.js.map",
     "runtime-main.js": "/word-yard-solver/static/js/runtime-main.4b9d17bd.js",
@@ -10,9 +10,9 @@
     "7a64ec12ecf5e6cab25e.worker.js": "/word-yard-solver/7a64ec12ecf5e6cab25e.worker.js",
     "7a64ec12ecf5e6cab25e.worker.js.map": "/word-yard-solver/7a64ec12ecf5e6cab25e.worker.js.map",
     "index.html": "/word-yard-solver/index.html",
-    "precache-manifest.4556adba42db45fd4473b9acb98db29f.js": "/word-yard-solver/precache-manifest.4556adba42db45fd4473b9acb98db29f.js",
+    "precache-manifest.82f2f9a3b685a85759d0f1e2869a2eb5.js": "/word-yard-solver/precache-manifest.82f2f9a3b685a85759d0f1e2869a2eb5.js",
     "service-worker.js": "/word-yard-solver/service-worker.js",
-    "static/css/main.18076a82.chunk.css.map": "/word-yard-solver/static/css/main.18076a82.chunk.css.map",
+    "static/css/main.3fa28d0d.chunk.css.map": "/word-yard-solver/static/css/main.3fa28d0d.chunk.css.map",
     "static/js/2.cf0d4ed8.chunk.js.LICENSE.txt": "/word-yard-solver/static/js/2.cf0d4ed8.chunk.js.LICENSE.txt",
     "static/media/add.43057faa.svg": "/word-yard-solver/static/media/add.43057faa.svg",
     "static/media/blank-check-box.0069b3dc.svg": "/word-yard-solver/static/media/blank-check-box.0069b3dc.svg",
@@ -23,7 +23,7 @@
   "entrypoints": [
     "static/js/runtime-main.4b9d17bd.js",
     "static/js/2.cf0d4ed8.chunk.js",
-    "static/css/main.18076a82.chunk.css",
+    "static/css/main.3fa28d0d.chunk.css",
     "static/js/main.558874d4.chunk.js"
   ]
 }
