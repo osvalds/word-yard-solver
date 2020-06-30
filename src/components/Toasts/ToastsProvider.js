@@ -27,7 +27,5 @@ function toastsReducer(state, action) {
 
 export default function ToastsProvider(props) {
     const [toasts, setToasts] = useReducer(toastsReducer, []);
-
-
     return <ToastsContext.Provider value={[toasts, setToasts]} {...props}/>
 }

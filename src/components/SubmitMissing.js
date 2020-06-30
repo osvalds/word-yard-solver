@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {FullWidthInput} from "./Input";
 import {FullWidthButton} from "./Button";
 import {useToasts} from "./Toasts/ToastsProvider";
+import useT from "./i18n/Translate";
 
 const SubmitStyled = styled.div`
   user-select: none;
@@ -129,7 +130,7 @@ export function SubmitMissing() {
     return (
         <>
             <SubmitStyled onClick={showSubmit}>
-                Neatrodi atbildi?
+                {useT("didntFind")}
             </SubmitStyled>
             {showModal &&
             <SubmitMissingModal setShowModal={setShowModal}/>}

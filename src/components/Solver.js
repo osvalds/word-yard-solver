@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useReducer, useRef, useState} from "react";
+import React, {useCallback, useContext, useEffect, useReducer, useRef, useState} from "react";
 import styled from "styled-components";
 import {FullWidthButton} from "./Button";
 import {ReactComponent as Clear} from "../icons/clear.svg";
@@ -8,6 +8,8 @@ import Results from "./Results";
 import {serializeInput} from "../Util";
 import {InlineLoading} from "./InlineLoading";
 import {SubmitMissing} from "./SubmitMissing";
+import {LocaleSwitcher} from "./i18n/LocaleSwitcher";
+import useT from "./i18n/Translate"
 //import {ParseXML} from "./ParseXML";
 
 const Title = styled.h1`
@@ -15,6 +17,12 @@ const Title = styled.h1`
   margin-bottom: 20px;
   font-weight: bold;
   text-align: center;
+`
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
 const SearchWrapper = styled.div`
@@ -139,14 +147,17 @@ export default function Solver({workerRef}) {
 
     return (
         <>
-            <SubmitMissing/>
-            <Title>Vārdu Dārza Suflieris</Title>
+            <Header>
+                <LocaleSwitcher/>
+                <SubmitMissing/>
+            </Header>
+            <Title>{useT("title")}</Title>
             <InputArray onChange={dispatchInputArrayChange}
                         inputArray={inputArray}
             />
             <SearchWrapper>
                 <FullWidthInput
-                    placeholder="Dotie burti"
+                    placeholder={useT("givenLetters")}
                     value={sourceLetters.join("").toUpperCase()}
                     onChange={handleSourceChange}
                     ref={inputRef}
@@ -155,7 +166,7 @@ export default function Solver({workerRef}) {
                 <ClearSearch onClick={resetState}/>}
             </SearchWrapper>
             <FullWidthButton onClick={handleSubmit}>
-                Saki priekšā!
+                {useT("solve")}
             </FullWidthButton>
             <SolverResults results={results}
                            usedResultsDispatcher={dispatchUsedResultsChange}

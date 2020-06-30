@@ -7,11 +7,13 @@ import {InlineLoading} from "./components/InlineLoading";
 import Firebase, {FirebaseContext} from "./components/Firebase"
 import ToastsProvider from "./components/Toasts/ToastsProvider";
 import ToastsPanel from "./components/Toasts/ToastsPanel";
+import LocaleContext from "./components/i18n/context";
 
 const fb = new Firebase()
 
 function App() {
     const [isLoaded, setIsLoaded] = useState("loading")
+    const useLocale = useState("lv")
     const workerRef = useRef(worker())
 
     const handleMessage = useCallback((message) => {
@@ -48,12 +50,14 @@ function App() {
         default:
             return (
                 <ErrorBoundary>
-                    <FirebaseContext.Provider value={fb}>
-                        <ToastsProvider>
-                            <Solver workerRef={workerRef}/>
-                            <ToastsPanel/>
-                        </ToastsProvider>
-                    </FirebaseContext.Provider>
+                    <LocaleContext.Provider value={useLocale}>
+                        <FirebaseContext.Provider value={fb}>
+                            <ToastsProvider>
+                                <Solver workerRef={workerRef}/>
+                                <ToastsPanel/>
+                            </ToastsProvider>
+                        </FirebaseContext.Provider>
+                    </LocaleContext.Provider>
                 </ErrorBoundary>
             );
     }

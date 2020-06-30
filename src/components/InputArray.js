@@ -4,6 +4,7 @@ import {Input} from "./Input";
 import {SquaredButton} from "./Button";
 import {ReactComponent as Add} from "../icons/add.svg";
 import {ReactComponent as Remove} from "../icons/remove.svg";
+import useT from "./i18n/Translate";
 
 const InputWrapper = styled.div`
   display: grid;
@@ -63,7 +64,7 @@ export default function InputArray({inputArray, onChange}) {
                     e.preventDefault();
                     onChange({type: "reset"})
                 }}>
-                    Vārda garums: {inputArray.length}
+                    {useT("wordLength")}: {inputArray.length}
                 </SizeContainer>
                 <SquaredButton
                     size={42}
