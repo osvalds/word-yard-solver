@@ -10,6 +10,7 @@ import {InlineLoading} from "./InlineLoading";
 import {SubmitMissing} from "./SubmitMissing";
 import {LocaleSwitcher} from "./i18n/LocaleSwitcher";
 import useT from "./i18n/Translate"
+import LocaleContext from "./i18n/context";
 //import {ParseXML} from "./ParseXML";
 
 const Title = styled.h1`
@@ -96,6 +97,7 @@ export default function Solver({workerRef}) {
     const [inputArray, dispatchInputArrayChange] = useReducer(reducer, ["", "", ""])
     const [results, setResults] = useState({state: "initial"})
     const [usedResults, dispatchUsedResultsChange] = useReducer(usedResultsReducer, new Set())
+    const [locale] = useContext(LocaleContext)
     const [search, setSearch] = useState("");
     const inputRef = useRef(null)
 

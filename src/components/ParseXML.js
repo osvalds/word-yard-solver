@@ -4,7 +4,7 @@ import axios from "axios";
 
 function saveTextAsFile(textToWrite) {
     var textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
-    var fileNameToSaveAs = "corpus.json"
+    var fileNameToSaveAs = "corpus_lv.json"
     var downloadLink = document.createElement("a");
     downloadLink.download = fileNameToSaveAs;
     downloadLink.innerHTML = "Download File";
@@ -57,7 +57,7 @@ export function ParseXML() {
     }
 
     const buildDict = async () => {
-        const resp = await axios(process.env.PUBLIC_URL + "/corpus_full.json")
+        const resp = await axios(process.env.PUBLIC_URL + "/corpus_lv_full.json")
         const inputArray = resp.data
         const sortedInputArray = inputArray.map(word => [...word].sort((a, b) => a.localeCompare(b)).join(""))
 

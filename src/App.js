@@ -8,18 +8,24 @@ import Firebase, {FirebaseContext} from "./components/Firebase"
 import ToastsProvider from "./components/Toasts/ToastsProvider";
 import ToastsPanel from "./components/Toasts/ToastsPanel";
 import LocaleContext from "./components/i18n/context";
+import useT from "./components/i18n/Translate";
 
 const fb = new Firebase()
 
 function App() {
     const [isLoaded, setIsLoaded] = useState("loading")
-    const useLocale = useState("lv")
+    const [locale, setLocale] = useState("lv")
     const workerRef = useRef(worker())
+    const loadingText = useT("loadingCorpusText")
+    const errorLoading = useT("errorLoadingCorpus")
 
     const handleMessage = useCallback((message) => {
         switch (message.data.type) {
             case "corpus-success":
                 setIsLoaded("loaded")
+                return;
+            case "corpus-loading":
+                setIsLoaded("loading")
                 return;
             case "corpus-error":
                 setIsLoaded("error")
@@ -34,23 +40,23 @@ function App() {
         const worker = workerRef.current;
 
         worker.addEventListener("message", handleMessage)
-        worker.loadCorpus()
+        worker.loadCorpus(locale)
 
         return () => {
             worker.removeEventListener("message", handleMessage)
         }
-    }, [handleMessage])
+    }, [handleMessage, locale])
 
     switch (isLoaded) {
         case "loading":
-            return <InlineLoading text="Lādē latviešu valodu"/>
+            return <InlineLoading text={loadingText}/>
         case "error":
-            return <div>Kļūda ielādējot latviešu valodu</div>
+            return <div>{errorLoading}</div>
         case "loaded":
         default:
             return (
                 <ErrorBoundary>
-                    <LocaleContext.Provider value={useLocale}>
+                    <LocaleContext.Provider value={[locale, setLocale]}>
                         <FirebaseContext.Provider value={fb}>
                             <ToastsProvider>
                                 <Solver workerRef={workerRef}/>

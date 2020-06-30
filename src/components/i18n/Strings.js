@@ -18,8 +18,13 @@ export const Strings = {
     solve: {
         lv: "Saki priekšā!",
         en: "Solve it for me!"
+    },
+    loadingCorpusText: {
+        lv: "Lādē latviešu valodu",
+        en: "Loading English dictionary"
+    },
+    errorLoadingCorpus: {
+        lv: "Kļūda ielādējot latviešu valodu",
+        en: "An error occurred while loading English dictionary"
     }
-
-
-
 }
