@@ -42,7 +42,6 @@ export function ParseXML() {
 
         for (let i = 0, l = lemmas.length; i < l; i++) {
             const newStr = lemmas[i].textContent;
-            let character = newStr.charAt(i);
             if (!newStr.charAtIsUpper(0)) {
                 setResults.add(newStr)
             }
@@ -50,10 +49,6 @@ export function ParseXML() {
         }
 
         saveTextAsFile(JSON.stringify(Array.from(setResults)))
-
-        console.log(setResults.size)
-        console.log(results.length)
-
     }
 
     const buildDict = async () => {
@@ -62,7 +57,7 @@ export function ParseXML() {
         const sortedInputArray = inputArray.map(word => [...word].sort((a, b) => a.localeCompare(b)).join(""))
 
         let resultMap = new Map();
-        const t1 = performance.now();
+        // const t1 = performance.now();
         for (let i = 0, l = inputArray.length; i < l; i++) {
             const sortedKey = sortedInputArray[i];
             const value = inputArray[i];
@@ -75,7 +70,7 @@ export function ParseXML() {
                 resultMap.set(sortedKey, [...currentVal, value])
             }
         }
-        const t2 = performance.now();
+        // const t2 = performance.now();
         // console.log(t2-t1)
 
         for (let [key, value] of resultMap) {
@@ -89,7 +84,7 @@ export function ParseXML() {
             return a[0].length - b[0].length
         }))
 
-        console.log(mapByLength)
+        // console.log(mapByLength)
 
         // console.log(resultMap);
 

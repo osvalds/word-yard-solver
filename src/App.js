@@ -16,8 +16,8 @@ function App() {
     const [isLoaded, setIsLoaded] = useState("loading")
     const [locale, setLocale] = useState("lv")
     const workerRef = useRef(worker())
-    const loadingText = useT("loadingCorpusText")
-    const errorLoading = useT("errorLoadingCorpus")
+    const loadingText = useT("loadingCorpusText", locale)
+    const errorLoading = useT("errorLoadingCorpus", locale)
 
     const handleMessage = useCallback((message) => {
         switch (message.data.type) {
