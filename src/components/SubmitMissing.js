@@ -75,20 +75,11 @@ function SubmitMissingModal({setShowModal}) {
     return (
         <ModalWrapper>
             <CloseModal onClick={() => setShowModal(false)}>
-                Aizvērt
+                {useT("close")}
             </CloseModal>
+            <Paragraph dangerouslySetInnerHTML={{ __html: useT("solutionExplainer1") }}/>
             <Paragraph>
-                Vārdu Dārza Suflieris izmanto <A href="https://github.com/LUMII-AILab/Tezaurs" target="_blank"
-                                                 rel="noreferrer">LUMII
-                Tēzaura</A> datu kopu, lai meklētu potenciālos atrisinājumus.
-                Kaut arī datu kopā ir vairāk nekā 300 000 ierakstu, Vārdu Dārzā mēdz parādīties vārdi, kurus
-                Suflieris neprot atminēt.
-                Suflierim problēmas arī sagādā vārda locījumi sieviešu dzimtē.
-            </Paragraph>
-            <Paragraph>
-                Ja esi uzdūries/-usies uz vārda, kuru Suflieris nevar atrisināt, bet Tev ir sanācis to izdarīt,
-                iesūti risinājumu un es papildināšu
-                datu kopu ar Tavu atminējumu.
+                {useT("solutionExplainer2")}
             </Paragraph>
 
             <form onSubmit={(event) => {
@@ -96,16 +87,16 @@ function SubmitMissingModal({setShowModal}) {
                 onSubmit()
             }}>
                 <StyledLabel htmlFor="solution">
-                    Atrisinājums, kuru suflieris nevarēja atrast:
+                    {useT("solutionLabel")}
                 </StyledLabel>
                 <FullWidthInput value={missing}
                                 autocomplete="off"
                                 id="solution"
-                                placeholder="Vārds"
+                                placeholder={useT("word")}
                                 style={{textAlign: "left"}}
                                 onChange={(evt) => setMissing(evt.target.value)}/>
                 <FullWidthButton onClick={onSubmit}>
-                    Iesūtīt
+                    {useT("submit")}
                 </FullWidthButton>
             </form>
         </ModalWrapper>

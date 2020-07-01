@@ -7,6 +7,7 @@ let corpusDict = {};
 // this does basically: https://stackoverflow.com/questions/8426178/given-a-string-find-all-its-permutations-that-are-a-word-in-dictionary
 // but a simplified version
 const buildCorpusDict = (corpus, locale) => {
+
     corpusDict[locale] = new Map();
     // change each word in corpus to alphabetically sorted string
     const corpusWordLettersSorted = corpus.map(word => [...word].sort((a, b) => a.localeCompare(b)).join(""))
@@ -19,26 +20,32 @@ const buildCorpusDict = (corpus, locale) => {
 
         const currentVal = corpusDict[locale].get(sortedKey);
 
-        if(currentVal === undefined) {
+        if (currentVal === undefined) {
             corpusDict[locale].set(sortedKey, [value])
         } else {
             corpusDict[locale].set(sortedKey, [...currentVal, value])
         }
     }
+    console.log(corpusDict[locale].size)
+
 }
 
 export const loadCorpus = async (locale) => {
-    postMessage({type: "corpus-loading"})
-    const result = await axios(process.env.PUBLIC_URL + `/corpus_${locale}.json`)
-
-    try {
-        buildCorpusDict(result.data, locale)
+    if ((corpusDict[locale] instanceof Map) && corpusDict[locale].size >= 0) {
         postMessage({type: "corpus-success"})
-    } catch (error) {
-        postMessage({
-            type: "corpus-error",
-            message: error.response?.error || error.message
-        })
+    } else {
+        postMessage({type: "corpus-loading"})
+        const result = await axios(process.env.PUBLIC_URL + `/corpus_${locale}.json`)
+
+        try {
+            buildCorpusDict(result.data, locale)
+            postMessage({type: "corpus-success"})
+        } catch (error) {
+            postMessage({
+                type: "corpus-error",
+                message: error.response?.error || error.message
+            })
+        }
     }
 }
 

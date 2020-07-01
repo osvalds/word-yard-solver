@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Checkbox from "./Checkbox";
+import useT from "./i18n/Translate";
 
 const ResultsWrapper = styled.div`
 margin: 12px -8px;
@@ -40,13 +41,17 @@ const ResultItem = ({result, toggleUsed, isUsed}) => {
 }
 
 export default function Results({results, usedResults, usedResultsDispatcher}) {
+    const noResults = useT("noResults")
+
     if (results.data === null) {
         return null
     } else if (results.data.length === 0) {
         return (
-            <div>
-                Neko neatradām
-            </div>
+            <ResultsWrapper>
+                <ResultText>
+                    {noResults}
+                </ResultText>
+            </ResultsWrapper>
         )
     } else {
         return (
