@@ -135,7 +135,7 @@ export default function Solver({workerRef}) {
     const handleSubmit = useCallback(() => {
         const newsearch = serializeInput({inputArray, sourceLetters});
         setSearch(newsearch);
-        workerRef.current.findResults({inputArray, sourceLetters})
+        workerRef.current.findResults({inputArray, sourceLetters, locale})
         setResults({state: "loading"})
     }, [inputArray, sourceLetters, setResults, setSearch, workerRef])
 

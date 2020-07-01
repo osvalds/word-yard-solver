@@ -28,7 +28,7 @@ const buildCorpusDict = (corpus, locale) => {
 }
 
 export const loadCorpus = async (locale) => {
-    console.log(`/corpus_${locale}.json`)
+    postMessage({type: "corpus-loading"})
     const result = await axios(process.env.PUBLIC_URL + `/corpus_${locale}.json`)
 
     try {

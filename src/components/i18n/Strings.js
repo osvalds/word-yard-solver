@@ -9,7 +9,7 @@ export const Strings = {
     },
     title: {
         lv: "Vārdu Dārza Suflieris",
-        en: "Word Yard Prompter"
+        en: "Word Yard Solver"
     },
     wordLength: {
         lv: "Vārda garums",
