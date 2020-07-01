@@ -26,8 +26,7 @@ const buildCorpusDict = (corpus, locale) => {
             corpusDict[locale].set(sortedKey, [...currentVal, value])
         }
     }
-    console.log(corpusDict[locale].size)
-
+    // console.log(corpusDict[locale].size)
 }
 
 export const loadCorpus = async (locale) => {

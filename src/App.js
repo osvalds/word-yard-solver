@@ -14,7 +14,7 @@ const fb = new Firebase()
 
 function App() {
     const [isLoaded, setIsLoaded] = useState("loading")
-    const [locale, setLocale] = useState("lv")
+    const [locale, setLocale] = useState("en")
     const workerRef = useRef(worker())
     const loadingText = useT("loadingCorpusText", locale)
     const errorLoading = useT("errorLoadingCorpus", locale)
