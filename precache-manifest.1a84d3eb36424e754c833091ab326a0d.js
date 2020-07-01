@@ -1,14 +1,14 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "468b0fd73d97f97253c270945eeb32b0",
-    "url": "/word-yard-solver/02fe5de5e490047f717f.worker.js"
+    "revision": "7136a9467226691190a3e92eca56f01f",
+    "url": "/word-yard-solver/6b76a893813955ff8d3b.worker.js"
   },
   {
-    "revision": "299503d3a8f8a2468695233132f0f504",
+    "revision": "d46427a51acc7b302410279d37beaf75",
     "url": "/word-yard-solver/index.html"
   },
   {
-    "revision": "4e3bf689642b853afa4e",
+    "revision": "888ba1a2dd47be0b1096",
     "url": "/word-yard-solver/static/css/main.3fa28d0d.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/word-yard-solver/static/js/2.cf0d4ed8.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4e3bf689642b853afa4e",
-    "url": "/word-yard-solver/static/js/main.0a067800.chunk.js"
+    "revision": "888ba1a2dd47be0b1096",
+    "url": "/word-yard-solver/static/js/main.df16c1eb.chunk.js"
   },
   {
     "revision": "d88b95c0d2dea783c1d3",
